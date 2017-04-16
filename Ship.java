@@ -16,7 +16,7 @@ public class Ship {
     }
 
     public boolean doShot(int part){
-        // if part is uncorrect
+        // if part is uncorrected
         if (part >= length || part < 0){
             return false;
         }
