@@ -40,7 +40,7 @@ public class Field {
 
     @Override
     public String toString(){
-        String str = new String("   абвгдеёжзи\n");
+        String str = "   а б в г д е ж з и й\n";
 
         for (int i = 0; i < this.size; i++){
             if (i < 9) str += ' ';
@@ -48,20 +48,20 @@ public class Field {
 
             for (int j = 0; j < this.size; j++)
                 if (cells[i][j].getShip() == null) {
-                    if (cells[i][j].isDead()) str += '*';
-                    else str += '.';
+                    if (cells[i][j].isDead()) str += "* ";
+                    else str += ". ";
                 }
                 else
                     if (cells[i][j].getShip().isDead()) {
-                        str += '#';
+                        str += "- ";
                     }
                     else {
-                        str += '@';
+                        str += "+ ";
                     }
 
-            str += '\n';
+            str += Integer.toString(i+1) + '\n';
         }
 
-        return str;
+        return str + "   а б в г д е ж з и й\n";
     }
 }
