@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Game {
-    static int[] countsOfShips = {4, 3, 2, 1};
+    private static int[] countsOfShips = {4, 3, 2, 1};
 
     public static void main(String[] argv){
         Field field = new Field(10);
@@ -27,7 +27,7 @@ public class Game {
                         }
                     }
 
-                    if (!field.addShip(orient == "г", lenShip, new Integer(cell.substring(1)) - 1, cell.charAt(0) - 'а')) {
+                    if (!field.addShip(orient.equals("г"), lenShip, new Integer(cell.substring(1)) - 1, cell.charAt(0) - 'а')) {
                         System.out.println("Недопустимое значение!");
                         numberShip--;
                     }
