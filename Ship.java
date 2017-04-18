@@ -36,8 +36,8 @@ class Ship {
                     y1 = ship.getRow();
                 }
                 else {
-                    x1 = ship.getRow();
-                    y1 = ship.getColumn() + i;
+                    x1 = ship.getColumn();
+                    y1 = ship.getRow() + i;
                 }
                 // update coord 2th ship
                 if (this.orient) {
@@ -62,12 +62,12 @@ class Ship {
         int x, y;
 
         for (int i = 0; i < this.length; i++) {
-            if (this.orient) {
-                x = this.col + i;
-                y = this.row;
+            if (this.orient) { // ver
+                y = this.row + i;
+                x = this.col;
             } else {
-                x = this.row;
-                y = this.col + i;
+                y = this.row; // hor
+                x = this.col + i;
             }
 
             if (x == col && y == row) {

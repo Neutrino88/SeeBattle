@@ -41,36 +41,39 @@ class Field {
     public String toString(){
         String str = "   а б в г д е ж з и й\n";
 
-        for (int i = 0; i < this.size; i++){
-            if (i < 9) str += " ";
-            str += Integer.toString(i+1) + " ";
+        for (int row = 0; row < this.size; row++){
+            if (row < 9) str += " ";
+            str += Integer.toString(row + 1) + " ";
 
-            for (int j = 0; j < this.size; j++){
+            for (int col = 0; col < this.size; col++){
                 // finding ship
+                boolean flag = false;
+
                 for (Ship curShip : ships){
-                    if (cells[i][j] && curShip.locatedOn(i, j)){
+                    boolean located = curShip.locatedOn(row, col);
+
+                    if (cells[row][col] && located){
                         str += "≡ ";
+                        flag = true;
                         break;
                     }
-                    if (!cells[i][j] && curShip.locatedOn(i, j)){
+                    if (!cells[row][col] && located){
                         str += "■ ";
+                        flag = true;
                         break;
                     }
-                    if (cells[i][j] && !curShip.locatedOn(i, j)){
+                    if (cells[row][col] && !located){
                         str += "Ο ";
-                        break;
-                    }
-                    if (!cells[i][j] && !curShip.locatedOn(i, j)){
-                        str += "· ";
+                        flag = true;
                         break;
                     }
                 }
 
-                if (ships.size() == 0){
+                if (!flag || ships.size() == 0){
                     str += "· ";
                 }
             }
-            str += Integer.toString(i+1) + "\n";
+            str += Integer.toString(row + 1) + "\n";
         }
 
         return str + "   а б в г д е ж з и й\n";
