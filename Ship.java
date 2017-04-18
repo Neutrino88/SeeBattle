@@ -29,24 +29,25 @@ class Ship {
         int x2, y2;
 
         for (int i = 0; i < ship.getLength(); i++){
+            // update coord 1th ship
+            if (ship.getOrient()) {
+                x1 = ship.getColumn();
+                y1 = ship.getRow() + i;
+            }
+            else {
+                x1 = ship.getColumn() + i;
+                y1 = ship.getRow();
+            }
+
             for (int j = 0; j < this.length; j++){
-                // update coord 1th ship
-                if (ship.getOrient()) {
-                    x1 = ship.getColumn() + i;
-                    y1 = ship.getRow();
-                }
-                else {
-                    x1 = ship.getColumn();
-                    y1 = ship.getRow() + i;
-                }
                 // update coord 2th ship
                 if (this.orient) {
-                    x2 = this.col + j;
-                    y2 = this.row;
+                    x2 = this.col ;
+                    y2 = this.row+ j;
                 }
                 else {
-                    x2 = this.row;
-                    y2 = this.col + j;
+                    x2 = this.col;
+                    y2 = this.row + j;
                 }
 
                 if (x1 - 1 <= x2 && x2 <= x1 + 1)

@@ -7,38 +7,48 @@ public class Game {
         Field field = new Field(10);
         Scanner scanner = new Scanner(System.in);
 
+        inputPlayerShips(field, scanner);
+
+    }
+
+    private static void inputPlayerShips(Field field, Scanner scanner){
         for (int lenShip = 1; lenShip <= countsOfShips.length; lenShip++){
             for (int numberShip = 0; numberShip < countsOfShips[lenShip-1]; numberShip++){
                 System.out.println(Integer.toString(lenShip) + "-палубный корабль:");
                 System.out.print("   Первая клетка (формат г4): ");
-                String cell = scanner.next();
+                String cell = inputCell(scanner);
 
-                if (cell.matches("^[абвгдежзий](10|[1-9])$")) {
-                    String orient = "в";
+                String orient = "в";
+                if (lenShip > 1) {
+                    System.out.print("   Горизонтально - г, вертикально - в: ");
+                    orient = scanner.next();
 
-                    if (lenShip > 1) {
-                        System.out.print("   Горизонтально - г, вертикально - в: ");
-                        orient = scanner.next();
-
-                        if (!orient.matches("^[вг]$")){
-                            System.out.println("Некорректное значение!");
-                            numberShip--;
-                            continue;
-                        }
-                    }
-
-                    if (!field.addShip(orient.equals("г"), lenShip, new Integer(cell.substring(1)) - 1, cell.charAt(0) - 'а')) {
-                        System.out.println("Недопустимое значение!");
+                    if (!orient.matches("^[вг]$")){
+                        System.out.println("Некорректное значение!");
                         numberShip--;
+                        continue;
                     }
                 }
-                else{
-                    System.out.println("Некорректное значение!");
+
+                if (!field.addShip(orient.equals("в"), lenShip, new Integer(cell.substring(1)) - 1, cell.charAt(0) - 'а')) {
+                    System.out.println("Недопустимое значение!");
                     numberShip--;
                 }
 
                 System.out.println('\n' + field.toString());
             }
+        }
+    }
+
+    private static String inputCell(Scanner scanner){
+        while(true) {
+            String cell = scanner.next();
+
+            if (!cell.matches("^[абвгдежзий](10|[1-9])$")){
+                System.out.println("Некорректное значение!");
+                continue;
+            }
+            return cell;
         }
     }
 }
