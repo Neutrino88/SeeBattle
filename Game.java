@@ -14,25 +14,19 @@ public class Game {
     private static void inputPlayerShips(Field field, Scanner scanner){
         for (int lenShip = 1; lenShip <= countsOfShips.length; lenShip++){
             for (int numberShip = 0; numberShip < countsOfShips[lenShip-1]; numberShip++){
-                System.out.println(Integer.toString(lenShip) + "-палубный корабль:");
-                System.out.print("   Первая клетка (формат г4): ");
-                String cell = inputCell(scanner);
+                String cell = inputValue(scanner,
+                        Integer.toString(lenShip) + "-палубный корабль:\n   Первая клетка (формат г4): ",
+                        "^[абвгдежзий](10|[1-9])$");
 
                 String orient = "в";
                 if (lenShip > 1) {
-                    System.out.print("   Горизонтально - г, вертикально - в: ");
-                    orient = scanner.next();
-
-                    if (!orient.matches("^[вг]$")){
-                        System.out.println("Некорректное значение!");
-                        numberShip--;
-                        continue;
-                    }
+                    orient = inputValue(scanner, "   Горизонтально - г, вертикально - в: ", "^[вг]$");
                 }
 
                 if (!field.addShip(orient.equals("в"), lenShip, new Integer(cell.substring(1)) - 1, cell.charAt(0) - 'а')) {
-                    System.out.println("Недопустимое значение!");
+                    System.out.println("Установите корабль в другое место!");
                     numberShip--;
+                    continue;
                 }
 
                 System.out.println('\n' + field.toString());
@@ -40,15 +34,17 @@ public class Game {
         }
     }
 
-    private static String inputCell(Scanner scanner){
-        while(true) {
-            String cell = scanner.next();
+    private static String inputValue(Scanner scanner, String title, String regexp){
+        System.out.print(title);
 
-            if (!cell.matches("^[абвгдежзий](10|[1-9])$")){
-                System.out.println("Некорректное значение!");
+        while(true) {
+            String value = scanner.next();
+
+            if (!value.matches(regexp)){
+                System.out.print("Некорректное значение! Попробуйте еще раз: ");
                 continue;
             }
-            return cell;
+            return value;
         }
     }
 }
