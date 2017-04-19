@@ -1,21 +1,33 @@
 import java.util.Scanner;
 
 public class Game {
-    public static int fieldSize = 8;
-    private static int[] countsOfShips = {0, 2, 2, 0, 1};
+    public static int fieldSize = 10;
+    private static int[] countsOfShips = {4, 3, 2, 1};
 
     public static void main(String[] argv){
         Scanner scanner = new Scanner(System.in);
 
+        // init player field
         Field playerField = new Field(fieldSize);
+        System.out.println(playerField.toString());
+        inputPlayerShips(playerField, scanner);
 
-        //System.out.println(playerField.toString());
-        //inputPlayerShips(playerField, scanner);
+        // init bot
+        Bot bot = new Bot(new Field(fieldSize));
+        bot.addShips(countsOfShips);
+        System.out.println(bot.getFieldString());
 
-        Field botField = new Field(fieldSize);
-        botField.addShipsRandomly(countsOfShips);
-        System.out.println(botField.toString());
+        // start game
+        if (game(scanner, playerField, bot)){
+            System.out.println("Вы выйграли!\nВы хороший стратег!");
+        }
+        else {
+            System.out.println("Вы проиграли!\nИскусственный интелект существует ...");
+        }
+    }
 
+    private static boolean game(Scanner scanner, Field playerField, Bot bot){
+        return !playerField.shipsDefeated();
     }
 
     private static void inputPlayerShips(Field field, Scanner scanner){

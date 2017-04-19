@@ -1,8 +1,8 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 class Field {
     private ArrayList<Ship> ships;
+    private boolean shipsDestroyed;
     private boolean[][] cells;
     private int size;
     public static String rows = "абвгдежзиклмнопрстуфхцчшыэюя";
@@ -11,6 +11,7 @@ class Field {
         this.size = size > rows.length() ? rows.length() : size;
         this.cells = new boolean[size][size];
         this.ships = new ArrayList<Ship>();
+        this.shipsDestroyed = true;
 
         for (int i = 0; i < size; i++){
             for (int j = 0; j < size; j++){
@@ -21,6 +22,9 @@ class Field {
 
     int getSize(){
         return this.size;
+    }
+    boolean shipsDefeated(){
+        return shipsDestroyed;
     }
 
     boolean addShip(boolean orient, int length, int row, char symbCol) {
@@ -44,6 +48,7 @@ class Field {
                 return false;
         }
 
+        this.shipsDestroyed = false;
         this.ships.add(newShip);
         return true;
     }
@@ -52,8 +57,7 @@ class Field {
         return true;
     }
 
-    @Override
-    public String toString(){
+    public String toString(boolean showAll){
         String str = "  ";
         for (int i = 0; i < this.size; i++){
             str += " " + rows.charAt(i);
@@ -76,7 +80,7 @@ class Field {
                         flag = true;
                         break;
                     }
-                    if (!cells[row][col] && located){
+                    if (showAll && !cells[row][col] && located){
                         str += "■ ";
                         flag = true;
                         break;
@@ -96,37 +100,5 @@ class Field {
         }
 
         return str + str.substring(0, 4 + this.size * 2);
-    }
-
-    void addShipsRandomly(int[] countOfShips){
-        Random rand = new Random();
-        int allShips = 0;
-
-        // delete all ships from field
-        ships.clear();
-
-        // counting all ships
-        for (int numberShips : countOfShips){
-            allShips += numberShips;
-        }
-
-        while (allShips > 0){
-            // choose ship
-            int indShip = rand.nextInt(countOfShips.length);
-
-            while (countOfShips[indShip] == 0){
-                indShip = (indShip + 1) % countOfShips.length;
-            }
-            // add ship on field
-            char col = rows.charAt(rand.nextInt(this.size));
-            int row = rand.nextInt(this.size);
-
-            while (!this.addShip(rand.nextBoolean(), indShip + 1, row, col)) {
-                col = rows.charAt(rand.nextInt(this.size));
-                row = rand.nextInt(this.size);
-            }
-            --countOfShips[indShip];
-            --allShips;
-        }
     }
 }
