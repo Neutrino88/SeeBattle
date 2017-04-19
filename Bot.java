@@ -1,17 +1,13 @@
 import java.util.Random;
 
-public class Bot {
-    private Field field;
-
-    Bot(Field field){
-        this.field = field;
+class Bot extends Player{
+    Bot(Field field, Field enemyField){
+        super(field, enemyField);
     }
 
     void addShips(int[] countOfShips){
         Random rand = new Random();
         int allShips = 0;
-
-        // delete all ships from field
 
         // counting all ships
         for (int numberShips : countOfShips){
@@ -38,5 +34,9 @@ public class Bot {
 
     String getFieldString(){
         return field.toString();
+    }
+
+    String doShot(){
+        return "a1";
     }
 }

@@ -2,16 +2,14 @@ import java.util.ArrayList;
 
 class Field {
     private ArrayList<Ship> ships;
-    private boolean shipsDestroyed;
     private boolean[][] cells;
     private int size;
-    public static String rows = "абвгдежзиклмнопрстуфхцчшыэюя";
+    static final String rows = "абвгдежзиклмнопрстуфхцчшыэюя";
 
     Field(int size){
         this.size = size > rows.length() ? rows.length() : size;
         this.cells = new boolean[size][size];
         this.ships = new ArrayList<Ship>();
-        this.shipsDestroyed = true;
 
         for (int i = 0; i < size; i++){
             for (int j = 0; j < size; j++){
@@ -22,9 +20,6 @@ class Field {
 
     int getSize(){
         return this.size;
-    }
-    boolean shipsDefeated(){
-        return shipsDestroyed;
     }
 
     boolean addShip(boolean orient, int length, int row, char symbCol) {
@@ -48,7 +43,6 @@ class Field {
                 return false;
         }
 
-        this.shipsDestroyed = false;
         this.ships.add(newShip);
         return true;
     }
@@ -57,7 +51,7 @@ class Field {
         return true;
     }
 
-    public String toString(boolean showAll){
+    public String toString(){
         String str = "  ";
         for (int i = 0; i < this.size; i++){
             str += " " + rows.charAt(i);
@@ -80,7 +74,7 @@ class Field {
                         flag = true;
                         break;
                     }
-                    if (showAll && !cells[row][col] && located){
+                    if (!cells[row][col] && located){
                         str += "■ ";
                         flag = true;
                         break;
