@@ -41,13 +41,13 @@ class Ship {
 
             for (int j = 0; j < this.length; j++){
                 // update coord 2th ship
-                if (this.orient) {
-                    x2 = this.col ;
-                    y2 = this.row+ j;
-                }
-                else {
+                if (this.orient) { // ver
                     x2 = this.col;
                     y2 = this.row + j;
+                }
+                else {
+                    x2 = this.col + j;
+                    y2 = this.row;
                 }
 
                 if (x1 - 1 <= x2 && x2 <= x1 + 1)

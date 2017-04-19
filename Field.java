@@ -24,6 +24,7 @@ class Field {
     }
 
     boolean addShip(boolean orient, int length, int row, char symbCol) {
+        // char column to int column
         int col = 0;
         for (int i = 0; i < rows.length(); i++){
             if (symbCol == rows.charAt(i)){
@@ -43,7 +44,7 @@ class Field {
                 return false;
         }
 
-        ships.add(newShip);
+        this.ships.add(newShip);
         return true;
     }
 
