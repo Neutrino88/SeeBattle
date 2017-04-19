@@ -14,7 +14,7 @@ class People extends Player {
 
                 System.out.print(Integer.toString(lenShip) + "-палубный корабль:\n   Первая клетка (формат г4): ");
                 while (true) {
-                    cell = inputValue(scanner, "", "^[" + Field.rows.substring(0, field.getSize()) + "](\\d?\\d)$");
+                    cell = inputValue(scanner, "", "^[" + Field.cols.substring(0, field.getSize()) + "](\\d?\\d)$");
 
                     if (new Integer(cell.substring(1)) - 1 < field.getSize()){
                         break;

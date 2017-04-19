@@ -1,16 +1,21 @@
 class Ship {
     private boolean orient; // false=hor, true=ver
+    private int livesNumber;
     private int length;
     private int col;
     private int row;
 
     Ship(boolean orient, int length, int row, int col){
+        this.livesNumber = length;
         this.length = length;
         this.orient = orient;
         this.row = row;
         this.col = col;
     }
 
+    int getLivesNumber(){
+        return this.livesNumber;
+    }
     boolean getOrient(){
         return this.orient;
     }
@@ -77,5 +82,9 @@ class Ship {
         }
 
         return false;
+    }
+
+    void getShot(){
+        this.livesNumber--;
     }
 }

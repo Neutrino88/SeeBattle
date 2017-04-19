@@ -10,4 +10,12 @@ abstract class Player {
     abstract void addShips(int[] countOfShips);
     abstract String getFieldString();
     abstract String doShot();
+
+    boolean getShot(int row, int col){
+        return field.getShot(row, col);
+    }
+
+    boolean isDead(){
+        return field.getLiveShips() == 0;
+    }
 }

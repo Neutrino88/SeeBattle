@@ -20,11 +20,11 @@ class Bot extends Player{
             for (; countOfShips[indShip] == 0; --indShip);
 
             // add ship on field
-            char col = Field.rows.charAt(rand.nextInt(field.getSize()));
+            char col = Field.cols.charAt(rand.nextInt(field.getSize()));
             int row = rand.nextInt(field.getSize());
 
             while (!this.field.addShip(rand.nextBoolean(), indShip + 1, row, col)) {
-                col = Field.rows.charAt(rand.nextInt(field.getSize()));
+                col = Field.cols.charAt(rand.nextInt(field.getSize()));
                 row = rand.nextInt(field.getSize());
             }
             --countOfShips[indShip];
