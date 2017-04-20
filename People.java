@@ -1,20 +1,21 @@
 import java.util.Scanner;
 
 class People extends Player {
+    Scanner scanner;
+
     People(Field field, Field enemyField){
         super(field, enemyField);
+        this.scanner = new Scanner(System.in);
     }
 
     void addShips(int[] countOfShips){
-        Scanner scanner = new Scanner(System.in);
-
         for (int lenShip = 1; lenShip <= countOfShips.length; lenShip++){
             for (int numberShip = 0; numberShip < countOfShips[lenShip-1]; numberShip++){
                 String cell;
 
                 System.out.print(Integer.toString(lenShip) + "-палубный корабль:\n   Первая клетка (формат г4): ");
                 while (true) {
-                    cell = inputValue(scanner, "", "^[" + Field.cols.substring(0, field.getSize()) + "](\\d?\\d)$");
+                    cell = inputValue("", "^[" + Field.cols.substring(0, field.getSize()) + "](\\d?\\d)$");
 
                     if (new Integer(cell.substring(1)) - 1 < field.getSize()){
                         break;
@@ -25,11 +26,11 @@ class People extends Player {
 
                 String orient = "в";
                 if (lenShip > 1) {
-                    orient = inputValue(scanner, "   Горизонтально - г, вертикально - в: ", "^[вг]$");
+                    orient = inputValue("   Горизонтально - г, вертикально - в: ", "^[вг]$");
                 }
 
-                if (!field.addShip(orient.equals("в"), lenShip, new Integer(cell.substring(1)) - 1, cell.charAt(0))) {
-                    System.out.println("Установите корабль в другое место!");
+                if (!field.addShip(orient.equals("в"), lenShip, Field.getRowByCell(cell), Field.getColByCell(cell))) {
+                    System.out.println("   Установите корабль в другое место!");
                     numberShip--;
                     continue;
                 }
@@ -37,29 +38,37 @@ class People extends Player {
                 System.out.println('\n' + field.toString());
             }
         }
-
-        scanner.close();
     }
 
-    static String inputValue(Scanner scanner, String title, String regexp){
+    String inputValue(String title, String regexp){
         System.out.print(title);
 
         while(true) {
             String value = scanner.next();
 
             if (!value.matches(regexp)){
-                System.out.print("Некорректное значение! Попробуйте еще раз: ");
+                System.out.print("   Некорректное значение! Попробуйте еще раз: ");
                 continue;
             }
             return value;
         }
     }
 
-    String getFieldString(){
-        return field.toString();
-    }
-
     String doShot(){
-        return "a1";
+        String cell;
+
+        System.out.print("Ваш ход: ");
+        while (true) {
+            cell = inputValue("", "^[" + Field.cols.substring(0, field.getSize()) + "](\\d?\\d)$");
+
+            if (new Integer(cell.substring(1)) - 1 < field.getSize()){
+                break;
+            }
+
+            System.out.print("Некорректное значение! Попробуйте еще раз: ");
+        }
+
+        enemyField.getShot(Field.getRowByCell(cell), Field.getColByCell(cell));
+        return cell;
     }
 }

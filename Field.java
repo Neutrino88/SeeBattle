@@ -27,10 +27,7 @@ class Field {
         return liveShips;
     }
 
-    boolean addShip(boolean orient, int length, int row, char symbCol) {
-        // char column to int column
-        int col = getIndexCol(symbCol);
-
+    boolean addShip(boolean orient, int length, int row, int col) {
         // if values are uncorrected
         if (orient && (row + length) > this.size) return false;
         if (!orient && (col + length) > this.size) return false;
@@ -53,16 +50,16 @@ class Field {
         }
         cells[row][col] = true;
 
-        for (int i = 0; i < ships.size(); i++){
-            Ship ship = ships.get(i);
-
+        for (Ship ship : ships){
             if (ship.locatedOn(row, col)){
                 if (ship.getLivesNumber() > 1){ // ship is wounded
                     ship.getShot();
                     return true;
                 }
-                else{ // ship is killed
+                else if (ship.getLivesNumber() == 1) { // ship is killed
+                    ship.getShot();
                     liveShips--;
+                    return true;
                 }
             }
         }
@@ -122,5 +119,14 @@ class Field {
             }
         }
         return 0;
+    }
+    static int getRowByCell(String cell){
+        return Integer.parseInt(cell.substring(1)) - 1;
+    }
+    static int getColByCell(String cell){
+        return Field.getIndexCol(cell.charAt(0));
+    }
+    static String getCellByRowCol(int row, int col){
+        return "" + cols.charAt(col) + Integer.toString(row + 1);
     }
 }
