@@ -50,9 +50,9 @@ class Field {
         this.liveShips++;
     }
 
-    boolean getShot(int row, int col){
+    int getShot(int row, int col){
         if (this.cells[row][col]){
-            return false;
+            return 0;
         }
         this.cells[row][col] = true;
 
@@ -62,41 +62,42 @@ class Field {
 
                 if (ship.getLivesNumber() == 0){ // ship is killed
                     this.liveShips--;
-                    showAllShip(row, col, 0);
+                    noteCellsAroundShip(row, col, 0);
+                    return 2;
                 }
-                return true;
+                return 1;
             }
         }
 
-        return false;
+        return 0;
     }
 
-    void showAllShip(int row, int col, int orient){
+    void noteCellsAroundShip(int row, int col, int orient){
         for (int i = -1; i < 2; i++){
             for (int j = -1; j < 2; j++){
-                if (row + i >= 0 && row + i < this.size &&
-                        col + j >= 0 && col + j < this.size) {
-                    cells[row + i][col + j] = true;
+                if (((row + i) >= 0) && ((row + i) < this.size) &&
+                        ((col + j) >= 0) && ((col + j) < this.size)) {
+                    this.cells[row + i][col + j] = true;
                 }
             }
         }
 
         for (Ship ship : ships) {
             if (orient < 1) {
-                if (row > 0 && !cells[row-1][col] && ship.locatedOn(row-1, col)){
-                    showAllShip(row-1, col, -1);
+                if (row > 0 && ship.locatedOn(row-1, col)){
+                    noteCellsAroundShip(row-1, col, -1);
                 }
-                if (col-1 > 0 && !cells[row][col-1] && ship.locatedOn(row, col-1)){
-                    showAllShip(row, col-1, -1);
+                if (col > 0 && ship.locatedOn(row, col-1)){
+                    noteCellsAroundShip(row, col-1, -1);
                 }
             }
             if (orient > -1) {
-                if (row + 1 < this.size && !cells[row + 1][col] && ship.locatedOn(row + 1, col)) {
-                    showAllShip(row + 1, col, 1);
+                if (row + 1 < this.size && ship.locatedOn(row + 1, col)) {
+                    noteCellsAroundShip(row + 1, col, 1);
                 }
 
-                if (col + 1 < this.size && !cells[row][col + 1] && ship.locatedOn(row, col + 1)) {
-                    showAllShip(row, col + 1, 1);
+                if (col + 1 < this.size && ship.locatedOn(row, col + 1)) {
+                    noteCellsAroundShip(row, col + 1, 1);
                 }
             }
         }

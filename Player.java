@@ -10,7 +10,7 @@ abstract class Player {
     abstract void addShips(int[] countOfShips);
     abstract String doShot();
 
-    boolean getShot(int row, int col){
+    int getShot(int row, int col){
         return this.field.getShot(row, col);
     }
     void addEnemyShip(boolean orient, int length, int row, int col){
