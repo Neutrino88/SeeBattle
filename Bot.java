@@ -43,7 +43,7 @@ class Bot extends Player{
         int col = rand.nextInt(field.getSize());
         String cell = Field.getCellByRowCol(row, col);
 
-        enemyField.getShot(row, col);
+        this.enemyField.getShot(row, col);
         return cell;
     }
 }

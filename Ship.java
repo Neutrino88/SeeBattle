@@ -85,6 +85,8 @@ class Ship {
     }
 
     void getShot(){
-        this.livesNumber--;
+        if (this.livesNumber > 0) {
+            this.livesNumber--;
+        }
     }
 }

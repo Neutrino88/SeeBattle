@@ -23,28 +23,29 @@ public class Game {
     }
 
     private static boolean game(People people, Bot bot){
-        boolean peopleShot = true;
+        boolean accurateShot;
 
         while (!bot.isDead() && !people.isDead()){
-            if (peopleShot){
+            do{
                 String shotCell = people.doShot();
-                peopleShot = bot.getShot(Field.getRowByCell(shotCell), Field.getColByCell(shotCell));
+                accurateShot = bot.getShot(Field.getRowByCell(shotCell), Field.getColByCell(shotCell));
 
-                if (peopleShot){
+                if (accurateShot){
                     people.addEnemyShip(true, 1, Field.getRowByCell(shotCell), Field.getColByCell(shotCell));
                 }
-            }
-            else{
-                String shotCell = bot.doShot();
-                System.out.println("Мой ход: " + shotCell);
-                peopleShot = !people.getShot(Field.getRowByCell(shotCell), Field.getColByCell(shotCell));
+                System.out.println(people.toString());
+            }while (accurateShot);
 
-                if (!peopleShot){
+            do{
+                String shotCell = bot.doShot();
+                System.out.println("Компьютера ход: " + shotCell);
+                accurateShot = people.getShot(Field.getRowByCell(shotCell), Field.getColByCell(shotCell));
+
+                if (accurateShot){
                     bot.addEnemyShip(true, 1, Field.getRowByCell(shotCell), Field.getColByCell(shotCell));
                 }
-            }
-
-            System.out.println(people.toString());
+                System.out.println(people.toString());
+            } while (accurateShot);
         }
 
         return bot.isDead();

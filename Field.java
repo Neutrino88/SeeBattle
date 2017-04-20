@@ -44,33 +44,68 @@ class Field {
         return true;
     }
 
+    void addShipUnsafe(boolean orient, int length, int row, int col){
+        Ship newShip = new Ship(orient, length, row, col);
+        this.ships.add(newShip);
+        this.liveShips++;
+    }
+
     boolean getShot(int row, int col){
-        if (cells[row][col]){
+        if (this.cells[row][col]){
             return false;
         }
-        cells[row][col] = true;
+        this.cells[row][col] = true;
 
         for (Ship ship : ships){
             if (ship.locatedOn(row, col)){
-                if (ship.getLivesNumber() > 1){ // ship is wounded
-                    ship.getShot();
-                    return true;
+                ship.getShot();
+
+                if (ship.getLivesNumber() == 0){ // ship is killed
+                    this.liveShips--;
+                    showAllShip(row, col, 0);
                 }
-                else if (ship.getLivesNumber() == 1) { // ship is killed
-                    ship.getShot();
-                    liveShips--;
-                    return true;
-                }
+                return true;
             }
         }
 
         return false;
     }
 
+    void showAllShip(int row, int col, int orient){
+        for (int i = -1; i < 2; i++){
+            for (int j = -1; j < 2; j++){
+                if (row + i >= 0 && row + i < this.size &&
+                        col + j >= 0 && col + j < this.size) {
+                    cells[row + i][col + j] = true;
+                }
+            }
+        }
+
+        for (Ship ship : ships) {
+            if (orient < 1) {
+                if (row > 0 && !cells[row-1][col] && ship.locatedOn(row-1, col)){
+                    showAllShip(row-1, col, -1);
+                }
+                if (col-1 > 0 && !cells[row][col-1] && ship.locatedOn(row, col-1)){
+                    showAllShip(row, col-1, -1);
+                }
+            }
+            if (orient > -1) {
+                if (row + 1 < this.size && !cells[row + 1][col] && ship.locatedOn(row + 1, col)) {
+                    showAllShip(row + 1, col, 1);
+                }
+
+                if (col + 1 < this.size && !cells[row][col + 1] && ship.locatedOn(row, col + 1)) {
+                    showAllShip(row, col + 1, 1);
+                }
+            }
+        }
+    }
+
     public String toString(){
         String str = "  ";
         for (int i = 0; i < this.size; i++){
-            str += " " + cols.charAt(i);
+            str += " " + Field.cols.charAt(i);
         }
         str += "\n";
 
@@ -82,28 +117,27 @@ class Field {
                 // finding ship
                 boolean flag = false;
 
-                for (Ship curShip : ships){
-                    boolean located = curShip.locatedOn(row, col);
+                for (Ship curShip : this.ships){
+                    boolean isLocated = curShip.locatedOn(row, col);
 
-                    if (cells[row][col] && located){
+                    if (this.cells[row][col] && isLocated){
                         str += "≡ ";
                         flag = true;
                         break;
                     }
-                    if (!cells[row][col] && located){
+                    if (!this.cells[row][col] && isLocated){
                         str += "■ ";
-                        flag = true;
-                        break;
-                    }
-                    if (cells[row][col] && !located){
-                        str += "Ο ";
                         flag = true;
                         break;
                     }
                 }
 
-                if (!flag || ships.size() == 0){
-                    str += "· ";
+                if (!flag) {
+                    if (!this.cells[row][col]) {
+                        str += "· ";
+                    } else {
+                        str += "Ο ";
+                    }
                 }
             }
             str += Integer.toString(row + 1) + "\n";

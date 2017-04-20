@@ -9,6 +9,9 @@ class People extends Player {
     }
 
     void addShips(int[] countOfShips){
+//        field.addShip(false, 2, 1, 1);
+  //      field.addShip(false, 4, 4, 4);
+
         for (int lenShip = 1; lenShip <= countOfShips.length; lenShip++){
             for (int numberShip = 0; numberShip < countOfShips[lenShip-1]; numberShip++){
                 String cell;
@@ -38,7 +41,7 @@ class People extends Player {
                 System.out.println('\n' + field.toString());
             }
         }
-    }
+   }
 
     String inputValue(String title, String regexp){
         System.out.print(title);
@@ -68,7 +71,7 @@ class People extends Player {
             System.out.print("Некорректное значение! Попробуйте еще раз: ");
         }
 
-        enemyField.getShot(Field.getRowByCell(cell), Field.getColByCell(cell));
+        this.enemyField.getShot(Field.getRowByCell(cell), Field.getColByCell(cell));
         return cell;
     }
 }
