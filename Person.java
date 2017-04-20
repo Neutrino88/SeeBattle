@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
-class People extends Player {
+class Person extends Player {
     Scanner scanner;
 
-    People(Field field, Field enemyField){
+    Person(Field field, Field enemyField){
         super(field, enemyField);
         this.scanner = new Scanner(System.in);
     }

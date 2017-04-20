@@ -3,16 +3,16 @@ public class Game {
     static int[] countsOfShips = {4, 3, 2, 1};
 
     public static void main(String[] argv){
-        // init people
-        People people = new People(new Field(fieldSize), new Field(fieldSize));
-        people.addShips(countsOfShips);
+        // init person
+        Person person = new Person(new Field(fieldSize), new Field(fieldSize));
+        person.addShips(countsOfShips);
 
         // init bot
         Bot bot = new Bot(new Field(fieldSize), new Field(fieldSize));
         bot.addShips(countsOfShips);
 
         // start game
-        if (game(people, bot)){
+        if (game(person, bot)){
             System.out.println("Ты выйграл, человек!\nПросто я еще недостаточно силен!");
         }
         else {
@@ -21,28 +21,28 @@ public class Game {
         }
     }
 
-    private static boolean game(People people, Bot bot){
+    private static boolean game(Person person, Bot bot){
         int accurateShot;
 
-        while (!bot.isDead() && !people.isDead()){
+        while (!bot.isDead() && !person.isDead()){
             do{
-                String shotCell = people.doShot();
+                String shotCell = person.doShot();
                 accurateShot = bot.getShot(Field.getRowByCell(shotCell), Field.getColByCell(shotCell));
 
                 if (accurateShot > 0){
-                    people.addEnemyShip(true, 1, Field.getRowByCell(shotCell), Field.getColByCell(shotCell));
+                    person.addEnemyShip(true, 1, Field.getRowByCell(shotCell), Field.getColByCell(shotCell));
                 }
                 if (accurateShot == 2){
-                    people.enemyField.noteCellsAroundShip(Field.getRowByCell(shotCell), Field.getColByCell(shotCell), 0);
+                    person.enemyField.noteCellsAroundShip(Field.getRowByCell(shotCell), Field.getColByCell(shotCell), 0);
                 }
 
-                System.out.println(people.toString());
+                System.out.println(person.toString());
             }while (accurateShot > 0 && !bot.isDead());
 
             do{
                 String shotCell = bot.doShot();
                 System.out.println("Компьютера ход: " + shotCell);
-                accurateShot = people.getShot(Field.getRowByCell(shotCell), Field.getColByCell(shotCell));
+                accurateShot = person.getShot(Field.getRowByCell(shotCell), Field.getColByCell(shotCell));
 
                 if (accurateShot > 0){
                     bot.addEnemyShip(true, 1, Field.getRowByCell(shotCell), Field.getColByCell(shotCell));
@@ -51,8 +51,8 @@ public class Game {
                     bot.enemyField.noteCellsAroundShip(Field.getRowByCell(shotCell), Field.getColByCell(shotCell), 0);
                 }
 
-                System.out.println(people.toString());
-            } while (accurateShot > 0 && !people.isDead());
+                System.out.println(person.toString());
+            } while (accurateShot > 0 && !person.isDead());
         }
 
         return bot.isDead();
