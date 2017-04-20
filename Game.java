@@ -1,6 +1,6 @@
 public class Game {
     static int fieldSize = 10;
-    static int[] countsOfShips = {0, 1, 0, 1};
+    static int[] countsOfShips = {4, 3, 2, 1};
 
     public static void main(String[] argv){
         // init people
@@ -10,7 +10,6 @@ public class Game {
         // init bot
         Bot bot = new Bot(new Field(fieldSize), new Field(fieldSize));
         bot.addShips(countsOfShips);
-        System.out.println(bot.getFieldString());
 
         // start game
         if (game(people, bot)){
@@ -38,7 +37,7 @@ public class Game {
                 }
 
                 System.out.println(people.toString());
-            }while (accurateShot > 0);
+            }while (accurateShot > 0 && !bot.isDead());
 
             do{
                 String shotCell = bot.doShot();
@@ -53,7 +52,7 @@ public class Game {
                 }
 
                 System.out.println(people.toString());
-            } while (accurateShot > 0);
+            } while (accurateShot > 0 && !people.isDead());
         }
 
         return bot.isDead();

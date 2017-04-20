@@ -24,7 +24,13 @@ class Field {
         return this.size;
     }
     int getLiveShips(){
-        return liveShips;
+        return this.liveShips;
+    }
+    boolean[][] getCells(){
+        return this.cells;
+    }
+    ArrayList<Ship> getShips(){
+        return this.ships;
     }
 
     boolean addShip(boolean orient, int length, int row, int col) {
@@ -137,7 +143,7 @@ class Field {
                     if (!this.cells[row][col]) {
                         str += "· ";
                     } else {
-                        str += "Ο ";
+                        str += "× ";
                     }
                 }
             }
@@ -147,7 +153,7 @@ class Field {
         return str + str.substring(0, 4 + this.size * 2);
     }
 
-    static int getIndexCol(char symbCol){
+    private static int getIndexCol(char symbCol){
         for (int i = 0; i < cols.length(); i++){
             if (symbCol == cols.charAt(i)){
                 return i;

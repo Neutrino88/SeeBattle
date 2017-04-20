@@ -1,6 +1,7 @@
 import java.util.Random;
 
 class Bot extends Player{
+
     Bot(Field field, Field enemyField){
         super(field, enemyField);
     }
@@ -32,18 +33,20 @@ class Bot extends Player{
         }
     }
 
-    String getFieldString(){
-        return field.toString();
-    }
-
     String doShot(){
         Random rand = new Random();
 
         int row = rand.nextInt(field.getSize());
         int col = rand.nextInt(field.getSize());
-        String cell = Field.getCellByRowCol(row, col);
 
+        while (this.enemyField.getCells()[row][col]){
+            row = rand.nextInt(field.getSize());
+            col = rand.nextInt(field.getSize());
+        }
+
+        String cell = Field.getCellByRowCol(row, col);
         this.enemyField.getShot(row, col);
+
         return cell;
     }
 }
